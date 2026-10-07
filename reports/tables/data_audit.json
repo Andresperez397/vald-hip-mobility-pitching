@@ -1,0 +1,141 @@
+{
+  "rows": 103,
+  "unique_pitchers": 103,
+  "static_tests_in_table": 28,
+  "corrupt_rows": 6,
+  "corrupt_rows_detail": {
+    "release_speed_under_60": 5,
+    "height_over_3": 6
+  },
+  "placeholder_mass_rows": 21,
+  "missing_release_speed_after_cleaning": 0,
+  "rows_after_cleaning": 97,
+  "rows_with_usable_speed": 97,
+  "rows_with_usable_torque": 76,
+  "raw_spread": {
+    "mass_kg": {
+      "0.0": 1.0,
+      "0.25": 78.36,
+      "0.5": 90.72,
+      "0.75": 99.79,
+      "1.0": 1580.91
+    },
+    "height_m": {
+      "0.0": 1.73,
+      "0.25": 1.85,
+      "0.5": 1.88,
+      "0.75": 1.93,
+      "1.0": 40.75
+    },
+    "release_speed_mph": {
+      "0.0": 36.17,
+      "0.25": 89.9,
+      "0.5": 91.9,
+      "0.75": 93.45,
+      "1.0": 97.7
+    },
+    "elbow_torque_nm": {
+      "0.0": 0.1,
+      "0.25": 46.29,
+      "0.5": 176.42,
+      "0.75": 203.16,
+      "1.0": 281.44
+    }
+  },
+  "clean_spread": {
+    "mass_kg": {
+      "0.0": 77.11,
+      "0.25": 86.25,
+      "0.5": 95.25,
+      "0.75": 100.44,
+      "1.0": 119.84
+    },
+    "height_m": {
+      "0.0": 1.73,
+      "0.25": 1.85,
+      "0.5": 1.88,
+      "0.75": 1.91,
+      "1.0": 2.03
+    },
+    "release_speed_mph": {
+      "0.0": 85.2,
+      "0.25": 90.2,
+      "0.5": 92.1,
+      "0.75": 93.5,
+      "1.0": 97.7
+    },
+    "elbow_torque_nm": {
+      "0.0": 111.88,
+      "0.25": 172.67,
+      "0.5": 195.17,
+      "0.75": 212.8,
+      "1.0": 281.44
+    }
+  },
+  "static_test_missing_share": {
+    "lead_add_max": 0.01,
+    "trail_add_max": 0.0,
+    "lead_abd_max": 0.0,
+    "trail_abd_max": 0.0,
+    "lead_add_avg": 0.0,
+    "trail_add_avg": 0.0,
+    "lead_abd_avg": 0.0,
+    "trail_abd_avg": 0.0,
+    "asymmetry_hip_add": 0.0,
+    "asymmetry_hip_abd": 0.0,
+    "lead_er": 0.01,
+    "trail_er": 0.01,
+    "lead_ir": 0.01,
+    "trail_ir": 0.01,
+    "nonthrowing_ir_max": 0.567,
+    "throwing_ir_max": 0.031,
+    "nonthrowing_er_max": 0.557,
+    "throwing_er_max": 0.031,
+    "nonthrowing_ir_avg": 0.557,
+    "throwing_ir_avg": 0.031,
+    "nonthrowing_er_avg": 0.557,
+    "throwing_er_avg": 0.031,
+    "non_throwing_ir_impulse": 0.557,
+    "throwing_ir_impulse": 0.031,
+    "non_throwing_er_impulse": 0.557,
+    "throwing_er_impulse": 0.031,
+    "asymmetry_shoulder_ir": 0.567,
+    "asymmetry_shoulder_er": 0.577
+  },
+  "usable_hip_tests": [
+    "lead_add_max",
+    "trail_add_max",
+    "lead_abd_max",
+    "trail_abd_max",
+    "lead_add_avg",
+    "trail_add_avg",
+    "lead_abd_avg",
+    "trail_abd_avg",
+    "asymmetry_hip_add",
+    "asymmetry_hip_abd",
+    "lead_er",
+    "trail_er",
+    "lead_ir",
+    "trail_ir"
+  ],
+  "usable_shoulder_tests": [
+    "throwing_ir_max",
+    "throwing_er_max",
+    "throwing_ir_avg",
+    "throwing_er_avg",
+    "throwing_ir_impulse",
+    "throwing_er_impulse"
+  ],
+  "hip_mocap_targets": 239,
+  "left_handed": 23,
+  "mlb_level": 15,
+  "capture_labels": {
+    "Fastball RH Markerless": 74,
+    "Fastball LH Markerless": 23
+  },
+  "torque_scale_clusters_raw": {
+    "under_1_nm": 6,
+    "1_to_60_nm": 21,
+    "over_60_nm": 76
+  }
+}

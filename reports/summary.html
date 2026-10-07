@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Hip Mobility and Pitching: Project Summary</title>
+<style>
+  @page { size: Letter; margin: 0.55in 0.6in; }
+  :root { --ink:#0b0b0b; --ink2:#52514e; --rule:#e4e3df; --accent:#2a78d6; }
+  body { font: 10.2pt/1.42 "Helvetica Neue", Arial, sans-serif; color: var(--ink); margin: 0; background:#fff; }
+  h1 { font-size: 17pt; margin: 0 0 2px; letter-spacing: -0.2px; }
+  .sub { color: var(--ink2); margin: 0 0 10px; }
+  h2 { font-size: 11pt; margin: 14px 0 4px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.6px; }
+  p { margin: 4px 0 6px; }
+  .meta { display:flex; flex-wrap:wrap; gap:4px 18px; font-size:9pt; color:var(--ink2); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:5px 0; margin-bottom:8px; }
+  .meta a { color: inherit; text-decoration: none; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  ul { margin: 4px 0 6px 16px; padding: 0; } li { margin: 2px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 9pt; margin: 4px 0; }
+  th, td { text-align: left; padding: 3px 6px; border-bottom: 1px solid var(--rule); }
+  th { color: var(--ink2); font-weight: 600; } td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.best td { font-weight: 700; }
+  img { width: 100%; display:block; }
+  .cap { font-size: 8.5pt; color: var(--ink2); margin-top: 2px; }
+  .pb { page-break-before: always; }
+  .foot { font-size: 8.3pt; color: var(--ink2); border-top:1px solid var(--rule); margin-top:10px; padding-top:5px; }
+  .box { background:#f4f6f8; border-radius:6px; padding:8px 10px; margin: 6px 0 8px; }
+</style></head><body>
+
+<h1>Do static hip and shoulder tests predict how a pitcher throws?</h1>
+<p class="sub">A data audit and out-of-sample test on 103 professional pitchers: VALD strength and mobility tests against release speed, elbow load and hip motion.</p>
+<div class="meta"><span><b>Andres Perez</b>, M.S. Kinesiology (Biomechanics)</span><span>Python · scikit-learn · pytest</span><span>Code: <a href="https://github.com/Andresperez397/vald-hip-mobility-pitching">github.com/Andresperez397/vald-hip-mobility-pitching</a></span></div>
+
+<div class="box"><b>In 30 seconds.</b> The tests don't add to body size: for pitchers the model hadn't seen, 25 static tests gained nothing for release speed or elbow torque, and across 239 hip and pelvis motion measurements only one beat a shuffled-label check, narrowly. The more useful result is the audit. The lab table had 6 corrupt rows and 21 placeholder-mass rows, and with them left in, body size alone "explains" 0.91 of release speed. Cleaned, it explains 0.12.</div>
+
+<div class="grid">
+<div>
+<h2>Data</h2>
+<p>103 pitchers (88 minor league, 15 major league) from the PLNU Pitching Lab: 28 static VALD hip and shoulder tests, body size, one session of fastballs with markerless motion capture (release speed, peak elbow varus torque, about 240 hip and pelvis measurements). The data are private; code and aggregate results only are shared.</p>
+<h2>Approach</h2>
+<ul>
+<li><b>Audit first:</b> rules for corrupt rows, placeholder mass, mostly-missing tests and an exploding asymmetry value, each counted.</li>
+<li><b>Unseen pitchers:</b> 10-fold CV × 20 repeats, ridge; imputation, winsorizing, scaling and penalty fit inside each training fold.</li>
+<li><b>Many targets, honest test:</b> the best of 239 hip targets is judged against the best of the same targets under shuffled tests.</li>
+<li><b>Synthetic stand-in</b> with planted problems and planted truth drives 11 tests and CI.</li>
+</ul>
+</div>
+<div>
+<h2>Findings</h2>
+<ul>
+<li><b>The raw table fools a model:</b> height, mass, handedness and level reach R² 0.91 (speed) and 0.89 (torque) by recognizing broken rows. After the audit: 0.12 and 0.26.</li>
+<li><b>Static tests add nothing</b> to release speed (R² 0.125 → 0.085 with hip tests, gain CI -0.14 to +0.03) or elbow torque (0.255 → 0.187, CI -0.17 to +0.08).</li>
+<li><b>Elbow load follows body mass,</b> not mobility.</li>
+<li><b>Hip motion:</b> median gain from hip tests is about zero. The best target gains 0.15 R² against 0.14 for the shuffled 95th percentile (p = 0.025): borderline, one of 239, a hypothesis only.</li>
+</ul>
+</div>
+</div>
+<img src="figures/fig1_audit.png" alt="Raw table versus audited table" style="width:56%;margin:6px auto 0">
+<p class="cap" style="text-align:center">Cross-validated R² for body size + handedness + level, on the table as delivered and after the audit.</p>
+
+<div class="pb"></div>
+<h2>Model results (held-out pitchers, 10-fold CV × 20)</h2>
+<table>
+<tr><th>Model</th><th class="n">Release speed R² (n = 97)</th><th class="n">Elbow torque R² (n = 76)</th></tr>
+<tr><td>Guess the mean</td><td class="n">0</td><td class="n">0</td></tr>
+<tr class="best"><td>Body size, handedness, level</td><td class="n">0.125</td><td class="n">0.255</td></tr>
+<tr><td>+ 14 hip tests</td><td class="n">0.085</td><td class="n">0.187</td></tr>
+<tr><td>+ hip and 6 shoulder tests</td><td class="n">0.092</td><td class="n">0.233</td></tr>
+</table>
+<img src="figures/fig2_static_tests.png" alt="Gain from static tests" style="width:88%;margin:6px auto 0">
+<p class="cap" style="text-align:center">R² gain over body size with 95% interval from a pitcher bootstrap. Zero is inside every interval.</p>
+<img src="figures/fig3_hip_mocap.png" alt="Hip motion-capture targets" style="width:92%;margin:8px auto 0">
+<p class="cap" style="text-align:center">Left: gain from hip tests for each of 239 targets. Right: the best gain when the tests are shuffled, with the real best target in orange.</p>
+
+<h2>Limitations</h2>
+<ul>
+<li>97 pitchers, one session each; 25 correlated tests. Gains under about 0.1 R² can't be detected.</li>
+<li>Only 76 pitchers have a usable elbow torque; its absolute scale comes from the capture system and was not independently validated.</li>
+<li>All sessions are markerless; differences between capture sessions are not modeled.</li>
+</ul>
+<div class="foot">Data: private PLNU Pitching Lab data (shared with permission as aggregate results and code only). Credit: PLNU Pitching Lab and Tony Martin. Code: MIT.</div>
+</body></html>

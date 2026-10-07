@@ -1,0 +1,25 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: ruff check src scripts tests
+      - run: ruff format --check src scripts tests
+      - run: pytest -q
+      - name: The whole pipeline runs on the synthetic stand-in
+        run: |
+          python scripts/make_synthetic.py
+          python scripts/01_data_audit.py --synthetic
+          python scripts/02_run_analysis.py --synthetic
+          python scripts/03_uncleaned_comparison.py --synthetic

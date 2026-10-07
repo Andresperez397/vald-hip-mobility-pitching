@@ -1,0 +1,26 @@
+{
+  "max_elbow_varus_torque_nm": {
+    "n": 103,
+    "outcome_sd": 79.7,
+    "body_size_and_handedness": {
+      "cv_r2": 0.89,
+      "rmse": 26.75
+    },
+    "plus_hip_tests": {
+      "cv_r2": 0.88,
+      "rmse": 27.53
+    }
+  },
+  "ball_release_speed_mph": {
+    "n": 102,
+    "outcome_sd": 11.59,
+    "body_size_and_handedness": {
+      "cv_r2": 0.91,
+      "rmse": 2.45
+    },
+    "plus_hip_tests": {
+      "cv_r2": 0.898,
+      "rmse": 2.69
+    }
+  }
+}

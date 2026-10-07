@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+output/
+# real data never belongs here; the synthetic stand-in is regenerated
+data/*
+!data/.gitkeep
+reports/tables/*_synthetic.json
