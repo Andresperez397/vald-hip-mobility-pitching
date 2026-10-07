@@ -146,6 +146,24 @@ def fig_power(pw):
     save(fig, "fig4_power.png")
 
 
+def fig_sample_size(ss):
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.2), sharey=True)
+    shades = {"0.05": GREY, "0.1": ORANGE, "0.15": BLUE}
+    for ax, key, title in ((axes[0], "release_speed", "Release speed"), (axes[1], "elbow_torque", "Elbow torque")):
+        for delta, col in shades.items():
+            d = ss[key][delta]
+            ax.plot([int(n) for n in d], list(d.values()), marker="o", color=col, lw=2, label=f"true gain {delta} R²")
+        ax.axhline(0.8, color=GREY, lw=1, ls="--")
+        ax.set_title(title, fontsize=10)
+        ax.set_xlabel("Pitchers in the study")
+    axes[0].set_ylabel("Chance the design detects it")
+    axes[0].text(105, 0.82, "80% power", color=MUTED, fontsize=8.5)
+    axes[0].set_ylim(0, 1.02)
+    axes[1].legend(frameon=False, fontsize=8.5, loc="upper left")
+    fig.suptitle("About 250 pitchers for a 0.15 gain, 350+ for 0.10", fontsize=11)
+    save(fig, "fig5_sample_size.png")
+
+
 def main():
     res = json.loads((T / "results.json").read_text())
     raw = json.loads((T / "uncleaned_comparison.json").read_text())
@@ -153,6 +171,7 @@ def main():
     fig_q1(res)
     fig_q2(res)
     fig_power(json.loads((T / "power.json").read_text()))
+    fig_sample_size(json.loads((T / "sample_size.json").read_text()))
 
 
 if __name__ == "__main__":

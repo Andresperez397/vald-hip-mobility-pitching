@@ -17,6 +17,8 @@
 
 3. **Power analysis (`scripts/06_power.py`).** Added after the first conclusions were drafted. It showed the design detects a planted gain of 0.20 R² only 44% (speed) and 22% (torque) of the time, so the wording changed from "static tests add nothing" to "no detectable gain; large effects ruled out, small ones not" in the README, summary and figures.
 
+6. **Sample-size planning (`scripts/07_sample_size.py`).** Added after the power analysis, to turn "the design was too small" into a number for a follow-up. A first pass with 60 simulations per cell was too noisy (power not monotone in n) and was replaced by 150 per cell; only the 150-simulation run is reported. Sample sizes 100 to 450 and planted gains 0.05, 0.10, 0.15 were fixed before running.
+
 ## Not in the plan
 
 4. **Spearman correlations** of each static test with each outcome are in `reports/tables/results.json`. They are shown for context and were not used to select predictors.

@@ -62,12 +62,26 @@ A false-positive rate near zero, but an effect of 0.10 would be missed 95% of th
 
 ![Power](reports/figures/fig4_power.png)
 
+**5. How many pitchers would a follow-up need?** The same simulation with a larger cohort (`scripts/07_sample_size.py`; 150 simulations per cell). Each simulated pitcher is a real pitcher's body size and static tests resampled with a small jitter; the outcome is the planted effect plus fresh noise.
+
+| Chance of detecting the planted gain | 100 | 150 | 200 | 300 | 450 pitchers |
+|---|---|---|---|---|---|
+| Release speed, gain 0.15 | 19% | 42% | 72% | 89% | 99% |
+| Release speed, gain 0.10 | 14% | 10% | 27% | 57% | 83% |
+| Elbow torque, gain 0.15 | 18% | 39% | 68% | 92% | 100% |
+| Elbow torque, gain 0.10 | 4% | 15% | 24% | 62% | 89% |
+| Either outcome, gain 0.05 | 1–2% | 1–2% | 1–8% | 7–9% | 18–20% |
+
+A 0.15 gain needs roughly 250 pitchers for 80% power and a 0.10 gain roughly 350 to 400. A 0.05 gain is out of reach below 450. With about 150 sessions a year that means two to three seasons of data collection before a null result would rule out a modest effect. These are planning figures from a simulation, not a guarantee: Monte Carlo error is about ±4 points per cell.
+
+![Sample size](reports/figures/fig5_sample_size.png)
+
 ## How the analysis was done
 
 - **Audit first** ([DATA_AUDIT.md](DATA_AUDIT.md)): rules for corrupt rows, placeholder mass, mostly-missing tests and near-duplicate targets, applied before any model. Every rule's effect is counted in [reports/tables/data_audit.json](reports/tables/data_audit.json).
 - **Plan** ([ANALYSIS_PLAN.md](ANALYSIS_PLAN.md)) and the one change made after seeing results ([DEVIATIONS.md](DEVIATIONS.md)). This is *not* pre-registered: it was written after exploratory reports on the same data (see below).
 - **Honest validation:** one row per pitcher, so K-fold already holds out whole pitchers. Winsorizing, imputation, scaling and the ridge penalty are all fit on the training fold only. The best-of-239 result is judged against a permutation null of the *best* target, not against zero.
-- **Tests (12)** on the synthetic stand-in, where the truth is known: every planted problem is found; the held-out outcome cannot change its own prediction; folds never share a pitcher; the winsorizer uses training data only; the uncleaned table inflates R² past 0.5; the permutation test recovers a planted hip target; the power simulation has a near-zero false-positive rate and rises with the planted effect.
+- **Tests (13)** on the synthetic stand-in, where the truth is known: every planted problem is found; the held-out outcome cannot change its own prediction; folds never share a pitcher; the winsorizer uses training data only; the uncleaned table inflates R² past 0.5; the permutation test recovers a planted hip target; the power simulation has a near-zero false-positive rate and rises with the planted effect; the sample-size simulation gains power as the cohort grows.
 
 ## Earlier exploratory reports
 

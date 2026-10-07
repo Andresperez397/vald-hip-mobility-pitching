@@ -136,3 +136,11 @@ def test_power_simulation_is_calibrated_and_rises_with_the_planted_effect(clean)
     low, high = out["by_planted_gain"]["0.0"]["power"], out["by_planted_gain"]["0.3"]["power"]
     assert low <= 0.12  # a false-positive rate near the nominal 5% (loose bound for 25 sims)
     assert high > low
+
+
+def test_sample_size_simulation_gains_power_with_more_pitchers(clean):
+    ss = _load_script("07_sample_size")
+    rng = np.random.default_rng(3)
+    small = ss.simulate(clean, data.SPEED, 100, 0.3, 0.125, rng, sims=20, boot=100)
+    large = ss.simulate(clean, data.SPEED, 400, 0.3, 0.125, rng, sims=20, boot=100)
+    assert large > small
