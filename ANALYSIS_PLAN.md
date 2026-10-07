@@ -39,4 +39,4 @@ As in [DATA_AUDIT.md](DATA_AUDIT.md). One row per pitcher.
 
 ## What would change the conclusions
 
-A larger sample, a second capture session per pitcher, or tests on the same pitchers' later injuries. With 97 pitchers and 25 correlated predictors, small effects (R² gains under about 0.1) are not detectable here.
+A larger sample, a second capture session per pitcher, or tests on the same pitchers' later injuries. With 97 pitchers and 25 correlated predictors, small effects are not detectable here: a simulation (`scripts/06_power.py`) puts the detectable gain at about 0.25 R² or more.

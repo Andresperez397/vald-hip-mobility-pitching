@@ -1,0 +1,68 @@
+{
+  "release_speed": {
+    "n": 97,
+    "tests_used": 20,
+    "by_planted_gain": {
+      "0.0": {
+        "power": 0.02,
+        "mean_observed_gain": -0.058
+      },
+      "0.05": {
+        "power": 0.02,
+        "mean_observed_gain": -0.018
+      },
+      "0.1": {
+        "power": 0.05,
+        "mean_observed_gain": 0.029
+      },
+      "0.15": {
+        "power": 0.23,
+        "mean_observed_gain": 0.068
+      },
+      "0.2": {
+        "power": 0.44,
+        "mean_observed_gain": 0.134
+      },
+      "0.3": {
+        "power": 0.82,
+        "mean_observed_gain": 0.23
+      }
+    }
+  },
+  "elbow_torque": {
+    "n": 76,
+    "tests_used": 20,
+    "by_planted_gain": {
+      "0.0": {
+        "power": 0.0,
+        "mean_observed_gain": -0.107
+      },
+      "0.05": {
+        "power": 0.0,
+        "mean_observed_gain": -0.053
+      },
+      "0.1": {
+        "power": 0.04,
+        "mean_observed_gain": 0.007
+      },
+      "0.15": {
+        "power": 0.12,
+        "mean_observed_gain": 0.05
+      },
+      "0.2": {
+        "power": 0.22,
+        "mean_observed_gain": 0.1
+      },
+      "0.3": {
+        "power": 0.6,
+        "mean_observed_gain": 0.219
+      }
+    }
+  },
+  "settings": {
+    "sims_per_gain": 120,
+    "bootstrap": 400,
+    "cv": "10-fold x 3",
+    "seed": 2026
+  }
+}

@@ -6,7 +6,7 @@
 ## At a glance
 
 - **Question:** Do static hip and shoulder strength and mobility tests predict release speed, elbow load, or how the hips and pelvis move, once body size is accounted for?
-- **Answer:** No. For 97 pitchers, 25 static tests added nothing to body size on pitchers the model had not seen, and only one of 239 hip and pelvis motion measurements cleared a shuffled-label test, narrowly.
+- **Answer:** No gain was detectable. For 97 pitchers, 25 static tests added nothing measurable to body size on pitchers the model had not seen, and only one of 239 hip and pelvis motion measurements cleared a shuffled-label test, narrowly. A simulation shows the design would catch only large effects (about 0.25 R² or more), so small real effects are not ruled out.
 - **Why it matters:** The lab's table had 6 corrupt and 21 placeholder-mass rows. Left in, body size seems to explain 91% of release speed; after the audit it explains 12%.
 - **Start here:** [Two-page summary](reports/Hip%20Mobility%20and%20Pitching%20-%20Summary.pdf) · [the audit](DATA_AUDIT.md) · [the figure that shows the trap](reports/figures/fig1_audit.png)
 
@@ -28,7 +28,7 @@
 | Release speed | 0.91 | **0.12** (n = 97) |
 | Elbow varus torque | 0.89 | **0.26** (n = 76) |
 
-**2. Static tests do not predict release speed or elbow torque beyond body size.**
+**2. Static tests show no detectable gain for release speed or elbow torque beyond body size.**
 
 | Model (10-fold CV × 20 repeats, held-out pitchers) | Release speed R² | Elbow torque R² |
 |---|---|---|
@@ -37,7 +37,7 @@
 | + 14 hip tests | 0.085 | 0.187 |
 | + hip and 6 shoulder tests | 0.092 | 0.233 |
 
-- **Gain over body size:** −0.04 (95% CI −0.14 to +0.03) for release speed and −0.07 (−0.17 to +0.08) for elbow torque with the hip tests, and no better with shoulder tests added.
+- **Gain over body size:** −0.04 (95% CI −0.14 to +0.03) for release speed and −0.07 (−0.17 to +0.08) for elbow torque with the hip tests, and no better with shoulder tests added. The upper ends rule out gains above about 0.03 and 0.08.
 - **Elbow torque tracks body mass, not mobility:** 0.26 R² comes from size alone.
 - **Only 76 of the 97 pitchers have a usable torque,** and 8 of the 14 shoulder tests are missing for more than half the pitchers, so they were left out.
 
@@ -51,12 +51,23 @@
 
 ![Hip motion-capture targets](reports/figures/fig3_hip_mocap.png)
 
+**4. How much could this design see? Only large effects.** Planting a known effect of the static tests in simulated outcomes (real predictors, real n, 120 simulations per size) and repeating the analysis gives the chance of detecting it:
+
+| Planted R² gain from the static tests | 0 | 0.05 | 0.10 | 0.15 | 0.20 | 0.30 |
+|---|---|---|---|---|---|---|
+| Release speed (n = 97) | 2% | 2% | 5% | 23% | 44% | 82% |
+| Elbow torque (n = 76) | 0% | 0% | 4% | 12% | 22% | 60% |
+
+A false-positive rate near zero, but an effect of 0.10 would be missed 95% of the time. The honest conclusion is *no large effect*, not *no effect*.
+
+![Power](reports/figures/fig4_power.png)
+
 ## How the analysis was done
 
 - **Audit first** ([DATA_AUDIT.md](DATA_AUDIT.md)): rules for corrupt rows, placeholder mass, mostly-missing tests and near-duplicate targets, applied before any model. Every rule's effect is counted in [reports/tables/data_audit.json](reports/tables/data_audit.json).
 - **Plan** ([ANALYSIS_PLAN.md](ANALYSIS_PLAN.md)) and the one change made after seeing results ([DEVIATIONS.md](DEVIATIONS.md)). This is *not* pre-registered: it was written after exploratory reports on the same data (see below).
 - **Honest validation:** one row per pitcher, so K-fold already holds out whole pitchers. Winsorizing, imputation, scaling and the ridge penalty are all fit on the training fold only. The best-of-239 result is judged against a permutation null of the *best* target, not against zero.
-- **Tests (11)** on the synthetic stand-in, where the truth is known: every planted problem is found; the held-out outcome cannot change its own prediction; folds never share a pitcher; the winsorizer uses training data only; the uncleaned table inflates R² past 0.5; the permutation test recovers a planted hip target.
+- **Tests (12)** on the synthetic stand-in, where the truth is known: every planted problem is found; the held-out outcome cannot change its own prediction; folds never share a pitcher; the winsorizer uses training data only; the uncleaned table inflates R² past 0.5; the permutation test recovers a planted hip target; the power simulation has a near-zero false-positive rate and rises with the planted effect.
 
 ## Earlier exploratory reports
 
@@ -64,7 +75,7 @@ This project replaces eight exploratory R Markdown reports on the same data, whi
 
 ## Limitations
 
-- **Small, one-session sample:** 97 pitchers, one visit each. With 25 correlated tests the intervals on R² gains span about ±0.1, so small real effects cannot be ruled out.
+- **Small, one-session sample:** 97 pitchers, one visit each. The simulation above shows that effects under about 0.2 R² would usually be missed, so small real effects cannot be ruled out.
 - **Torque scale:** elbow torque comes from the capture system's inverse dynamics; its absolute scale was not independently validated, and only 76 pitchers have it.
 - **Capture system:** all sessions are markerless. Differences between capture sessions are not modeled.
 - **Left- versus right-handed pitchers** share one model, with a handedness indicator.

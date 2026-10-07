@@ -28,7 +28,7 @@
 <p class="sub">A data audit and out-of-sample test on 103 professional pitchers: VALD strength and mobility tests against release speed, elbow load and hip motion.</p>
 <div class="meta"><span><b>Andres Perez</b>, M.S. Kinesiology (Biomechanics)</span><span>Python · scikit-learn · pytest</span><span>Code: <a href="https://github.com/Andresperez397/vald-hip-mobility-pitching">github.com/Andresperez397/vald-hip-mobility-pitching</a></span></div>
 
-<div class="box"><b>In 30 seconds.</b> The tests don't add to body size: for pitchers the model hadn't seen, 25 static tests gained nothing for release speed or elbow torque, and across {{N_TARGETS}} hip and pelvis motion measurements only one beat a shuffled-label check, narrowly. The more useful result is the audit. The lab table had {{N_CORRUPT}} corrupt rows and {{N_PLACEHOLDER}} placeholder-mass rows, and with them left in, body size alone "explains" {{RAW_SPEED}} of release speed. Cleaned, it explains {{CLEAN_SPEED}}.</div>
+<div class="box"><b>In 30 seconds.</b> The tests show no detectable gain over body size: for pitchers the model hadn't seen, 25 static tests gained nothing measurable for release speed or elbow torque (large effects are ruled out, small ones are not), and across {{N_TARGETS}} hip and pelvis motion measurements only one beat a shuffled-label check, narrowly. The more useful result is the audit. The lab table had {{N_CORRUPT}} corrupt rows and {{N_PLACEHOLDER}} placeholder-mass rows, and with them left in, body size alone "explains" {{RAW_SPEED}} of release speed. Cleaned, it explains {{CLEAN_SPEED}}.</div>
 
 <div class="grid">
 <div>
@@ -46,8 +46,9 @@
 <h2>Findings</h2>
 <ul>
 <li><b>The raw table fools a model:</b> height, mass, handedness and level reach R² {{RAW_SPEED}} (speed) and {{RAW_TORQUE}} (torque) by recognizing broken rows. After the audit: {{CLEAN_SPEED}} and {{CLEAN_TORQUE}}.</li>
-<li><b>Static tests add nothing</b> to release speed (R² {{SPEED_BASE}} → {{SPEED_HIP}} with hip tests, gain CI {{SPEED_GAIN_CI}}) or elbow torque ({{TORQUE_BASE}} → {{TORQUE_HIP}}, CI {{TORQUE_GAIN_CI}}).</li>
+<li><b>No detectable gain</b> from static tests for release speed (R² {{SPEED_BASE}} → {{SPEED_HIP}} with hip tests, gain CI {{SPEED_GAIN_CI}}) or elbow torque ({{TORQUE_BASE}} → {{TORQUE_HIP}}, CI {{TORQUE_GAIN_CI}}).</li>
 <li><b>Elbow load follows body mass,</b> not mobility.</li>
+<li><b>Power is limited:</b> a simulation shows a real gain of 0.20 R² would be detected only 44% (speed) and 22% (torque) of the time. Large effects are ruled out; small ones are not.</li>
 <li><b>Hip motion:</b> median gain from hip tests is about zero. The best target gains {{BEST_GAIN}} R² against {{NULL_P95}} for the shuffled 95th percentile (p = {{P_BEST}}): borderline, one of {{N_TARGETS}}, a hypothesis only.</li>
 </ul>
 </div>
@@ -71,7 +72,7 @@
 
 <h2>Limitations</h2>
 <ul>
-<li>{{N_SPEED}} pitchers, one session each; 25 correlated tests. Gains under about 0.1 R² can't be detected.</li>
+<li>{{N_SPEED}} pitchers, one session each; 25 correlated tests. Effects under about 0.2 R² would usually be missed (see the power simulation).</li>
 <li>Only {{N_TORQUE}} pitchers have a usable elbow torque; its absolute scale comes from the capture system and was not independently validated.</li>
 <li>All sessions are markerless; differences between capture sessions are not modeled.</li>
 </ul>

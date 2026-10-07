@@ -128,3 +128,11 @@ def test_audit_output_contains_no_pitcher_level_values(tmp_path):
     assert hasattr(out, "main")
     syn = _load_script("make_synthetic").make()
     assert isinstance(syn, pd.DataFrame) and syn["player_id"].is_unique
+
+
+def test_power_simulation_is_calibrated_and_rises_with_the_planted_effect(clean):
+    power = _load_script("06_power")
+    out = power.one_design(clean, data.SPEED, np.random.default_rng(1), deltas=[0.0, 0.3], sims=25, boot=100)
+    low, high = out["by_planted_gain"]["0.0"]["power"], out["by_planted_gain"]["0.3"]["power"]
+    assert low <= 0.12  # a false-positive rate near the nominal 5% (loose bound for 25 sims)
+    assert high > low

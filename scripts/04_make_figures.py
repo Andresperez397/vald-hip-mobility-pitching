@@ -81,7 +81,7 @@ def fig_q1(res):
         ax.grid(axis="y", visible=False)
         ax.set_xlabel("R² gain over body size (95% interval)")
     fig.suptitle(
-        "Static hip and shoulder tests add nothing beyond body size",
+        "No detectable gain from static tests beyond body size",
         x=0.01,
         ha="left",
         fontsize=12,
@@ -126,12 +126,33 @@ def fig_q2(res):
     save(fig, "fig3_hip_mocap.png")
 
 
+def fig_power(pw):
+    fig, ax = plt.subplots(figsize=(6.4, 3.4))
+    for key, lab, col in (
+        ("release_speed", "Release speed (n = 97)", BLUE),
+        ("elbow_torque", "Elbow torque (n = 76)", ORANGE),
+    ):
+        d = pw[key]["by_planted_gain"]
+        xs = [float(k) for k in d]
+        ys = [d[k]["power"] for k in d]
+        ax.plot(xs, ys, marker="o", color=col, lw=2, label=lab)
+    ax.axhline(0.8, color=GREY, lw=1, ls="--")
+    ax.text(0.0, 0.82, "80% power", color=MUTED, fontsize=8.5)
+    ax.set_xlabel("R² gain from the static tests that was planted in simulated outcomes")
+    ax.set_ylabel("Chance this design detects it")
+    ax.set_ylim(0, 1.02)
+    ax.set_title("A real effect under ~0.2 R² would usually be missed")
+    ax.legend(frameon=False, fontsize=9, loc="upper left")
+    save(fig, "fig4_power.png")
+
+
 def main():
     res = json.loads((T / "results.json").read_text())
     raw = json.loads((T / "uncleaned_comparison.json").read_text())
     fig_audit(res, raw)
     fig_q1(res)
     fig_q2(res)
+    fig_power(json.loads((T / "power.json").read_text()))
 
 
 if __name__ == "__main__":
